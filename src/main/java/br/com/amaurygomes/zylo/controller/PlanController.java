@@ -3,7 +3,7 @@ package br.com.amaurygomes.zylo.controller;
 import br.com.amaurygomes.zylo.dto.CreatePlanDTO;
 import br.com.amaurygomes.zylo.dto.PlanResposeDTO;
 import br.com.amaurygomes.zylo.dto.UpdatePlanDTO;
-import br.com.amaurygomes.zylo.service.plan.PlanService;
+import br.com.amaurygomes.zylo.service.PlanService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +11,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/plans")
@@ -25,7 +26,7 @@ public class PlanController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PlanResposeDTO> getPlanById(@PathVariable String id){
+    public ResponseEntity<PlanResposeDTO> getPlanById(@PathVariable UUID id){
         return ResponseEntity.ok(planService.getPlanById(id));
     }
 
@@ -35,13 +36,13 @@ public class PlanController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<String> updatePlan(@PathVariable String id, @RequestBody UpdatePlanDTO updatePlan){
+    public ResponseEntity<String> updatePlan(@PathVariable UUID id, @RequestBody UpdatePlanDTO updatePlan){
         planService.updatePlan(id, updatePlan);
         return ResponseEntity.ok("Plan updated");
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deletePlan(@PathVariable String id){
+    public ResponseEntity<String> deletePlan(@PathVariable UUID id){
         planService.deletePlan(id);
         return ResponseEntity.ok("Plan deleted");
     }
