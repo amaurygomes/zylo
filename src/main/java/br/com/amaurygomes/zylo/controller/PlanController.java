@@ -7,6 +7,7 @@ import br.com.amaurygomes.zylo.service.plan.PlanService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,7 +19,7 @@ public class PlanController {
     private final PlanService planService;
 
     @PostMapping
-    public ResponseEntity<String> createPlan(CreatePlanDTO createPlan){
+    public ResponseEntity<String> createPlan(@Validated @RequestBody CreatePlanDTO createPlan){
         planService.createPlan(createPlan);
         return ResponseEntity.status(HttpStatus.CREATED).body("Plan created");
     }
