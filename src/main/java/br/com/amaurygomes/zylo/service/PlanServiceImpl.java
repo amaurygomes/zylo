@@ -1,4 +1,4 @@
-package br.com.amaurygomes.zylo.service.plan;
+package br.com.amaurygomes.zylo.service;
 
 import br.com.amaurygomes.zylo.dto.CreatePlanDTO;
 import br.com.amaurygomes.zylo.dto.PlanResposeDTO;
@@ -6,10 +6,12 @@ import br.com.amaurygomes.zylo.dto.UpdatePlanDTO;
 import br.com.amaurygomes.zylo.model.PlanModel;
 import br.com.amaurygomes.zylo.repository.PlanRepository;
 import jakarta.persistence.EntityExistsException;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -21,16 +23,15 @@ public class PlanServiceImpl implements PlanService {
         if (planRepository.existsByName(createPlan.name())) {
             throw new EntityExistsException(String.format("Plan %s already exists", createPlan.name()));
         }
-
         PlanModel plan = CreatePlanDTO.toModel(createPlan);
-
         planRepository.save(plan);
 
     }
 
     @Override
-    public PlanResposeDTO getPlanById(String id) {
-        return null;
+    public PlanResposeDTO getPlanById(UUID id) {
+        PlanModel plan = planRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(String.format("Plan %s not found", id)));
+        return PlanResposeDTO.toDTO(plan);
     }
 
     @Override
@@ -39,12 +40,10 @@ public class PlanServiceImpl implements PlanService {
     }
 
     @Override
-    public void updatePlan(String id, UpdatePlanDTO updatePlan) {
+    public void updatePlan(UUID id, UpdatePlanDTO updatePlan) {
     }
 
     @Override
-    public void deletePlan(String id){
-
-    }
+    public void deletePlan(UUID id) {}
 
 }
