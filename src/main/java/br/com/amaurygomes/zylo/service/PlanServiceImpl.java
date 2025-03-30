@@ -36,7 +36,10 @@ public class PlanServiceImpl implements PlanService {
 
     @Override
     public List<PlanResposeDTO> getPlans() {
-        return List.of();
+        return planRepository.findAll()
+                .stream()
+                .map(PlanResposeDTO::toDTO)
+                .toList();
     }
 
     @Override
