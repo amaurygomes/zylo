@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -44,6 +45,19 @@ public class PlanServiceImpl implements PlanService {
 
     @Override
     public void updatePlan(UUID id, UpdatePlanDTO updatePlan) {
+        Optional<PlanModel> plan = planRepository.findById(id);
+        if (plan.isEmpty()){
+            throw new EntityNotFoundException(String.format("Plan %s not found", id));
+        }
+
+        PlanModel planToUpdate = PlanModel.builder()
+                .id(plan.get().getId())
+                .name(Optional.ofNullable(updatePlan.name()).orElse(plan.get().getName()))
+                .price(Optional.ofNullable(updatePlan.price()).orElse(plan.get().getPrice()))
+                .billingCycle(Optional.ofNullable(updatePlan.billingCycle()).orElse(plan.get().getBillingCycle()))
+                .active(Optional.ofNullable(updatePlan.active()).orElse(plan.get().isActive()))
+                .build();
+        planRepository.save(planToUpdate);
     }
 
     @Override
