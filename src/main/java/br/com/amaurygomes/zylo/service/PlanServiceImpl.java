@@ -61,6 +61,11 @@ public class PlanServiceImpl implements PlanService {
     }
 
     @Override
-    public void deletePlan(UUID id) {}
+    public void deletePlan(UUID id) {
+        if (!planRepository.existsById(id)){
+            throw new EntityNotFoundException(String.format("Plan %s not found", id));
+        }
+        planRepository.deleteById(id);
+    }
 
 }
