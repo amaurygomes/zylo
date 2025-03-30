@@ -4,6 +4,7 @@ import br.com.amaurygomes.zylo.dto.CreatePlanDTO;
 import br.com.amaurygomes.zylo.dto.PlanResposeDTO;
 import br.com.amaurygomes.zylo.dto.UpdatePlanDTO;
 import br.com.amaurygomes.zylo.service.PlanService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,7 +37,7 @@ public class PlanController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<String> updatePlan(@PathVariable UUID id, @RequestBody UpdatePlanDTO updatePlan){
+    public ResponseEntity<String> updatePlan(@PathVariable UUID id,@Valid @RequestBody UpdatePlanDTO updatePlan){
         planService.updatePlan(id, updatePlan);
         return ResponseEntity.ok("Plan updated");
     }
