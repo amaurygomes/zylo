@@ -1,18 +1,18 @@
 package br.com.amaurygomes.zylo.dto;
 
 import br.com.amaurygomes.zylo.enums.BillingCycle;
-import jakarta.annotation.Nullable;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.PositiveOrZero;
 
 import java.math.BigDecimal;
 
 public record UpdatePlanDTO(
-        @Nullable
         String name,
-        @Nullable
+        @PositiveOrZero(message = "Plan price must be greater than or equal to zero")
         BigDecimal price,
-        @Nullable
+        @JsonProperty("billing_cycle")
         BillingCycle billingCycle,
-        @Nullable
         Boolean active
 ) {
+
 }
